@@ -1,3 +1,5 @@
+ALLDEPS += mkglue/libav.mk
+
 PKG_CONFIG ?= pkg-config
 
 ifndef LIBAV_MK

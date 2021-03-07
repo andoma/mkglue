@@ -1,3 +1,4 @@
+ALLDEPS += mkglue/libav.mk
 
 PKG_CONFIG ?= pkg-config
 
