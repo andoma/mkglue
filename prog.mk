@@ -9,21 +9,27 @@ DEPS +=  ${OBJS:%.o=%.d}
 
 ${PROG}: $(OBJS) $(ALLDEPS)
 	@mkdir -p $(dir $@)
+	@echo "\tLINK\t$@"
 	$(CC) -o $@ ${OBJS} $(LDFLAGS) ${LDFLAGS_cfg}
 
 ${O}/%.o: %.c  $(ALLDEPS)
 	@mkdir -p $(dir $@)
+	@echo "\tCC\t$@"
 	$(CC) -MD -MP $(CPPFLAGS) $(CFLAGS) -c -o $@ $(CURDIR)/$<
 
 ${O}/%.o: %.cc $(ALLDEPS)
 	@mkdir -p $(dir $@)
+	@echo "\tCXX\t$@"
 	$(CXX) -MD -MP $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $(CURDIR)/$<
 
 ${O}/%.o: %.cpp $(ALLDEPS)
 	@mkdir -p $(dir $@)
+	@echo "\tCXX\t$@"
 	$(CXX) -MD -MP $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $(CURDIR)/$<
 
 clean:
 	rm -rf "${O}"
 
 -include $(DEPS)
+
+$(V).SILENT:
