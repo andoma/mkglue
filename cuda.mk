@@ -1,4 +1,4 @@
-ALLDEPS += mkglue/libav.mk
+ALLDEPS += mkglue/cuda.mk
 
 PKG_CONFIG ?= pkg-config
 
