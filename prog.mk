@@ -10,7 +10,7 @@ DEPS +=  ${OBJS:%.o=%.d}
 ${PROG}: $(OBJS) $(ALLDEPS)
 	@mkdir -p $(dir $@)
 	@echo "\tLINK\t$@"
-	$(CC) -o $@ ${OBJS} $(LDFLAGS) ${LDFLAGS_cfg}
+	$(CXX) -o $@ ${OBJS} $(LDFLAGS) ${LDFLAGS_cfg}
 
 ${O}/%.o: %.c  $(ALLDEPS)
 	@mkdir -p $(dir $@)
