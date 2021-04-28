@@ -11,8 +11,14 @@ GLFW3_PKGS := glew glfw3
 CPPFLAGS += $(shell pkg-config ${GLFW3_PKGS} --cflags)
 LDFLAGS  += $(shell pkg-config ${GLFW3_PKGS} --libs)
 
+else ifeq ($(shell uname),Darwin)
+
+GLFW3_PKGS := glfw3
+CPPFLAGS += $(shell pkg-config ${GLFW3_PKGS} --cflags)
+LDFLAGS  += $(shell pkg-config ${GLFW3_PKGS} --libs)
+
+LDFLAGS += -framework OpenGL
+
 endif
-
-
 
 endif
