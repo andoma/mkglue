@@ -1,11 +1,10 @@
 ALLDEPS += mkglue/prog.mk
 
-OBJS +=  $(SRCS:%.c=$(O)/%.o)
-OBJS :=  $(OBJS:%.cc=$(O)/%.o)
-OBJS :=  $(OBJS:%.cpp=$(O)/%.o)
+OBJS += $(patsubst %.c,   $(O)/%.o, $(filter %.c,   ${SRCS}))
+OBJS += $(patsubst %.cc,  $(O)/%.o, $(filter %.cc,  ${SRCS}))
+OBJS += $(patsubst %.cpp, $(O)/%.o, $(filter %.cpp, ${SRCS}))
+
 DEPS +=  ${OBJS:%.o=%.d}
-
-
 
 ${PROG}: $(OBJS) $(ALLDEPS)
 	@mkdir -p $(dir $@)

@@ -43,4 +43,12 @@ CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cuda-11.3 cudart-11.3)
 
 endif
 
+${O}/%.o: %.cu ${ALLDEPS}
+	@mkdir -p $(dir $@)
+	${NVCC} ${NVCCFLAGS} -o $@ -c $<
+	${NVCC} -M ${NVCCFLAGS} -o ${@:%.o=%.d} -c $<
+	@sed -itmp "s:^$(notdir $@) :$@ :" ${@:%.o=%.d}
+
+OBJS += $(patsubst %.cu,  $(O)/%.o, $(filter %.cu,  ${SRCS}))
+
 endif
