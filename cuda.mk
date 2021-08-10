@@ -45,8 +45,9 @@ endif
 
 ${O}/%.o: %.cu ${ALLDEPS}
 	@mkdir -p $(dir $@)
-	${NVCC} ${NVCCFLAGS} -o $@ -c $<
-	${NVCC} -M ${NVCCFLAGS} -o ${@:%.o=%.d} -c $<
+	${NVCC} ${CPPFLAGS} ${NVCCFLAGS} -o $@ -c $<
+	${NVCC} -M ${CPPFLAGS} ${NVCCFLAGS} -o ${@:%.o=%.d} -c $<
+	@echo "\tNVCC\t$@"
 	@sed -itmp "s:^$(notdir $@) :$@ :" ${@:%.o=%.d}
 
 OBJS += $(patsubst %.cu,  $(O)/%.o, $(filter %.cu,  ${SRCS}))
