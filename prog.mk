@@ -11,17 +11,17 @@ ${PROG}: $(OBJS) $(ALLDEPS)
 	@echo "\tLINK\t$@"
 	$(CXX) -o $@ ${OBJS} $(LDFLAGS) ${LDFLAGS_cfg}
 
-${O}/%.o: %.c  $(ALLDEPS)
+${O}/%.o: %.c  $(ALLDEPS) $(SRCDEPS)
 	@mkdir -p $(dir $@)
 	@echo "\tCC\t$@"
 	$(CC) -MD -MP $(CPPFLAGS) $(CFLAGS) -c -o $@ $(CURDIR)/$<
 
-${O}/%.o: %.cc $(ALLDEPS)
+${O}/%.o: %.cc $(ALLDEPS)  $(SRCDEPS)
 	@mkdir -p $(dir $@)
 	@echo "\tCXX\t$@"
 	$(CXX) -MD -MP $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $(CURDIR)/$<
 
-${O}/%.o: %.cpp $(ALLDEPS)
+${O}/%.o: %.cpp $(ALLDEPS) $(SRCDEPS)
 	@mkdir -p $(dir $@)
 	@echo "\tCXX\t$@"
 	$(CXX) -MD -MP $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $(CURDIR)/$<
