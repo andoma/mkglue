@@ -41,6 +41,15 @@ NVCC := /usr/local/cuda-11.3/bin/nvcc
 CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cuda-11.3 cudart-11.3)
 CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cuda-11.3 cudart-11.3)
 
+else ifeq '$(shell $(PKG_CONFIG) cuda-11.4 ; echo $$?)' '0'
+
+HAVE_CUDA := yes
+
+NVCC := /usr/local/cuda-11.4/bin/nvcc
+
+CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cuda-11.4 cudart-11.4)
+CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cuda-11.4 cudart-11.4)
+
 endif
 
 ${O}/%.o: %.cu ${ALLDEPS}
