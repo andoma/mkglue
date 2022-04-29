@@ -1,5 +1,7 @@
 ALLDEPS += mkglue/prog.mk
 
+SRCS += ${SRCS-yes}
+
 OBJS += $(patsubst %.c,   $(O)/%.o, $(filter %.c,   ${SRCS}))
 OBJS += $(patsubst %.cc,  $(O)/%.o, $(filter %.cc,  ${SRCS}))
 OBJS += $(patsubst %.cpp, $(O)/%.o, $(filter %.cpp, ${SRCS}))
