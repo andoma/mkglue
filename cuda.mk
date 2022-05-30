@@ -52,13 +52,35 @@ HAVE_CUDA := yes
 
 endif
 
-${O}/%.o: %.cu ${ALLDEPS}
+# Optix
+
+${O}/%.ptx: %.optix.cu ${ALLDEPS}
 	@mkdir -p $(dir $@)
+	@echo "\tNVCC\t$@"
+	${NVCC} ${CPPFLAGS} -ptx --use_fast_math ${NVCCFLAGS} -o $@ $<
+	${NVCC} -M ${CPPFLAGS} ${NVCCFLAGS} -o ${@:%.ptx=%.d} -c $<
+	@sed -itmp "s:^$(notdir $@) :$@ :" ${@:%.ptx=%.d}
+
+${O}/%.ptx.c: ${O}/%.ptx ${ALLDEPS}
+	@mkdir -p $(dir $@)
+	@echo "\tXXD\t$@"
+	@(cd $(dir $<) && xxd -i $(notdir $<)) >$@
+
+${O}/%.ptx.o: ${O}/%.ptx.c ${ALLDEPS}
+	@mkdir -p $(dir $@)
+	@echo "\tCC\t$@"
+	$(CC) -MD -MP $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+
+# Standard cuda
+
+${O}/%.cu.o: %.cu ${ALLDEPS}
+	@mkdir -p $(dir $@)
+	@echo "\tNVCC\t$@"
 	${NVCC} ${CPPFLAGS} ${NVCCFLAGS} -o $@ -c $<
 	${NVCC} -M ${CPPFLAGS} ${NVCCFLAGS} -o ${@:%.o=%.d} -c $<
-	@echo "\tNVCC\t$@"
 	@sed -itmp "s:^$(notdir $@) :$@ :" ${@:%.o=%.d}
 
-OBJS += $(patsubst %.cu,  $(O)/%.o, $(filter %.cu,  ${SRCS}))
+OBJS += $(patsubst %.cu, $(O)/%.cu.o, $(filter %.cu, $(filter-out %.optix.cu, ${SRCS})))
+OBJS += $(patsubst %.optix.cu, $(O)/%.ptx.o, $(filter %.optix.cu, ${SRCS}))
 
 endif
