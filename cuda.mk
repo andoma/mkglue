@@ -54,22 +54,14 @@ endif
 
 # Optix
 
-${O}/%.ptx: %.optix.cu ${ALLDEPS}
-	@mkdir -p $(dir $@)
+${O}/%.ptx.o: %.optix.cu ${ALLDEPS}
+	mkdir -p $(dir $@)
 	@echo "\tNVCC\t$@"
-	${NVCC} ${CPPFLAGS} -ptx --use_fast_math ${NVCCFLAGS} -o $@ $<
-	${NVCC} -M ${CPPFLAGS} ${NVCCFLAGS} -o ${@:%.ptx=%.d} -c $<
-	@sed -itmp "s:^$(notdir $@) :$@ :" ${@:%.ptx=%.d}
-
-${O}/%.ptx.c: ${O}/%.ptx ${ALLDEPS}
-	@mkdir -p $(dir $@)
-	@echo "\tXXD\t$@"
-	@(cd $(dir $<) && xxd -i $(notdir $<)) >$@
-
-${O}/%.ptx.o: ${O}/%.ptx.c ${ALLDEPS}
-	@mkdir -p $(dir $@)
-	@echo "\tCC\t$@"
-	$(CC) -MD -MP $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+	${NVCC} ${CPPFLAGS} -ptx --use_fast_math ${NVCCFLAGS} -o $(O)/$*.ptx $<
+	(cd $(dir $@) && xxd -i $(notdir $*.ptx)) >$@.c
+	$(CC) -c -o $@ $@.c
+	${NVCC} -M ${CPPFLAGS} ${NVCCFLAGS} -o ${@:%.o=%.d} -c $<
+	sed -itmp "s:^$(notdir $*.optix.o) :$@ :" ${@:%.o=%.d}
 
 # Standard cuda
 
