@@ -12,8 +12,8 @@ HAVE_CUDA := yes
 
 NVCC := /usr/local/cuda-10.2/bin/nvcc
 
-CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cuda-10.2 cudart-10.2)
-CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cuda-10.2 cudart-10.2)
+CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cudart-10.2)
+CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cudart-10.2)
 
 else ifeq '$(shell $(PKG_CONFIG) cuda-11.0 ; echo $$?)' '0'
 
@@ -21,8 +21,8 @@ HAVE_CUDA := yes
 
 NVCC := /usr/local/cuda-11.0/bin/nvcc
 
-CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cuda-11.0 cudart-11.0)
-CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cuda-11.0 cudart-11.0)
+CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cudart-11.0)
+CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cudart-11.0)
 
 else ifeq '$(shell $(PKG_CONFIG) cuda-11.3 ; echo $$?)' '0'
 
@@ -30,8 +30,8 @@ HAVE_CUDA := yes
 
 NVCC := /usr/local/cuda-11.3/bin/nvcc
 
-CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cuda-11.3 cudart-11.3)
-CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cuda-11.3 cudart-11.3)
+CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cudart-11.3)
+CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cudart-11.3)
 
 else ifeq '$(shell $(PKG_CONFIG) cuda-11.4 ; echo $$?)' '0'
 
@@ -39,15 +39,15 @@ HAVE_CUDA := yes
 
 NVCC := /usr/local/cuda-11.4/bin/nvcc
 
-CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cuda-11.4 cudart-11.4)
-CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cuda-11.4 cudart-11.4)
+CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cudart-11.4)
+CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cudart-11.4)
 
 else ifeq '$(shell which nvcc >/dev/null; echo $$?)' '0'
 # nvcc is in path
 # Ubuntu installs like this
 
 NVCC := nvcc
-CUDA_LDFLAGS += -lcuda -lcudart
+CUDA_LDFLAGS += -lcudart
 HAVE_CUDA := yes
 
 endif
