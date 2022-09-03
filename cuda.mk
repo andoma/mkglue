@@ -79,6 +79,15 @@ HAVE_CUDA := yes
 
 endif
 
+# Check for NCCL (no pkg-config)
+
+ifeq '$(shell echo "#include <nccl.h>" | gcc -E -xc - 2>/dev/null >/dev/null ; echo $$?)' '0'
+
+CUDA_CPPFLAGS += -DHAVE_NCCL
+CUDA_LDFLAGS += -lnccl
+
+endif
+
 # Optix
 
 ${O}/%.ptx.o: %.optix.cu ${ALLDEPS}
