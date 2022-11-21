@@ -69,6 +69,15 @@ NVCC := /usr/local/cuda-11.7/bin/nvcc
 CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cudart-11.7)
 CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cudart-11.7)
 
+else ifeq '$(shell $(PKG_CONFIG) cuda-11.8 ; echo $$?)' '0'
+
+HAVE_CUDA := yes
+
+NVCC := /usr/local/cuda-11.8/bin/nvcc
+
+CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cudart-11.8)
+CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cudart-11.8)
+
 else ifeq '$(shell which nvcc >/dev/null; echo $$?)' '0'
 # nvcc is in path
 # Ubuntu installs like this
@@ -81,7 +90,7 @@ endif
 
 # Check for NCCL (no pkg-config)
 
-ifeq '$(shell echo "#include <nccl.h>" | gcc -E -xc - 2>/dev/null >/dev/null ; echo $$?)' '0'
+ifeq '$(shell echo "#include <nccl.h>" | gcc ${CUDA_CPPFLAGS} -E -xc - >/dev/null 2>/dev/null; echo $$?)' '0'
 
 CUDA_CPPFLAGS += -DHAVE_NCCL
 CUDA_LDFLAGS += -lnccl
