@@ -1,4 +1,4 @@
-ALLDEPS += mkglue/obj.mk
+ALLDEPS += mkglue/prog.mk
 
 .DEFAULT_GOAL := ${PROG}
 

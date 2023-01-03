@@ -1,4 +1,4 @@
-ALLDEPS += mkglue/prog.mk
+ALLDEPS += mkglue/obj.mk
 
 SRCS += ${SRCS-yes}
 
