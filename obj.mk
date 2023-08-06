@@ -5,6 +5,7 @@ SRCS += ${SRCS-yes}
 OBJS += $(patsubst %.c,    $(O)/%.o,      $(filter %.c,   ${SRCS}))
 OBJS += $(patsubst %.cc,   $(O)/%.o,      $(filter %.cc,  ${SRCS}))
 OBJS += $(patsubst %.cpp,  $(O)/%.o,      $(filter %.cpp, ${SRCS}))
+OBJS += $(patsubst %.m,    $(O)/%.o,      $(filter %.m,   ${SRCS}))
 OBJS += $(patsubst %.glsl, $(O)/%.glsl.o, $(filter %.glsl,${SRCS}))
 OBJS += $(patsubst %.png,  $(O)/%.png.o,  $(filter %.png, ${SRCS}))
 
@@ -24,6 +25,11 @@ ${O}/%.o: %.cpp $(ALLDEPS) $(SRCDEPS)
 	@mkdir -p $(dir $@)
 	@echo "\tCXX\t$@"
 	$(CXX) -MD -MP $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $(CURDIR)/$<
+
+${O}/%.o: %.m  $(ALLDEPS) $(SRCDEPS)
+	@mkdir -p $(dir $@)
+	@echo "\tCC\t$@"
+	$(CC) -MD -MP $(CPPFLAGS) $(CFLAGS) -c -o $@ $(CURDIR)/$<
 
 ${O}/%.glsl.c: %.glsl ${ALLDEPS}
 	@mkdir -p $(dir $@)
