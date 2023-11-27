@@ -90,7 +90,9 @@ endif
 
 # Check for NCCL (no pkg-config)
 
-ifeq '$(shell echo "#include <nccl.h>" | gcc ${CUDA_CPPFLAGS} -E -xc - >/dev/null 2>/dev/null; echo $$?)' '0'
+CUDA_NCCL := $(shell :| gcc -include nccl.h ${CUDA_CPPFLAGS} -E -xc - >/dev/null 2>/dev/null; echo $$?)
+
+ifeq '$(CUDA_NCCL)' '0'
 
 CUDA_CPPFLAGS += -DHAVE_NCCL
 CUDA_LDFLAGS += -lnccl
