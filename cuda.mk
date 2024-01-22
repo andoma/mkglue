@@ -78,6 +78,15 @@ NVCC := /usr/local/cuda-11.8/bin/nvcc
 CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cudart-11.8)
 CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cudart-11.8)
 
+else ifeq '$(shell $(PKG_CONFIG) cuda-12.2 ; echo $$?)' '0'
+
+HAVE_CUDA := yes
+
+NVCC := /usr/local/cuda-12.2/bin/nvcc
+
+CUDA_LDFLAGS  += $(shell $(PKG_CONFIG) --libs cudart-12.2)
+CUDA_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags cudart-12.2)
+
 else ifeq '$(shell which nvcc >/dev/null; echo $$?)' '0'
 # nvcc is in path
 # Ubuntu installs like this
