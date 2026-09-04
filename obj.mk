@@ -14,22 +14,22 @@ DEPS +=  ${OBJS:%.o=%.d}
 ${O}/%.o: %.c  $(ALLDEPS) $(SRCDEPS)
 	@mkdir -p $(dir $@)
 	@echo "\tCC\t$@"
-	$(CC) -MD -MP $(CPPFLAGS) $(CFLAGS) -c -o $@ $(CURDIR)/$<
+	$(CC) -MD -MP $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 ${O}/%.o: %.cc $(ALLDEPS)  $(SRCDEPS)
 	@mkdir -p $(dir $@)
 	@echo "\tCXX\t$@"
-	$(CXX) -MD -MP $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $(CURDIR)/$<
+	$(CXX) -MD -MP $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
 ${O}/%.o: %.cpp $(ALLDEPS) $(SRCDEPS)
 	@mkdir -p $(dir $@)
 	@echo "\tCXX\t$@"
-	$(CXX) -MD -MP $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $(CURDIR)/$<
+	$(CXX) -MD -MP $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
 ${O}/%.o: %.m  $(ALLDEPS) $(SRCDEPS)
 	@mkdir -p $(dir $@)
 	@echo "\tCC\t$@"
-	$(CC) -MD -MP $(CPPFLAGS) $(CFLAGS) -c -o $@ $(CURDIR)/$<
+	$(CC) -MD -MP $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 ${O}/%.glsl.c: %.glsl ${ALLDEPS}
 	@mkdir -p $(dir $@)
